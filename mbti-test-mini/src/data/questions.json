@@ -1,0 +1,542 @@
+[
+  {
+    "options": [
+      {
+        "result": "I",
+        "value": "独自工作",
+        "key": "A"
+      },
+      {
+        "result": "E",
+        "value": "与他人合作",
+        "key": "B"
+      }
+    ],
+    "title": "你通常更喜欢"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "喜欢有明确的计划",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "更愿意随机应变",
+        "key": "B"
+      }
+    ],
+    "title": "当安排活动时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "认为应该严格遵守",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "认为应灵活运用",
+        "key": "B"
+      }
+    ],
+    "title": "你如何看待规则"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "经常是说话的人",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "更倾向于倾听",
+        "key": "B"
+      }
+    ],
+    "title": "在社交场合中"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "先研究再行动",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "边做边学习",
+        "key": "B"
+      }
+    ],
+    "title": "面对新的挑战"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "注重细节和事实",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "注重概念和想象",
+        "key": "B"
+      }
+    ],
+    "title": "在日常生活中"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "更多基于逻辑分析",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "更多基于个人情感",
+        "key": "B"
+      }
+    ],
+    "title": "做决定时"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "喜欢有结构和常规",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "喜欢自由和灵活性",
+        "key": "B"
+      }
+    ],
+    "title": "对于日常安排"
+  },
+  {
+    "options": [
+      {
+        "result": "P",
+        "value": "首先考虑可能性",
+        "key": "A"
+      },
+      {
+        "result": "J",
+        "value": "首先考虑后果",
+        "key": "B"
+      }
+    ],
+    "title": "当遇到问题时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "时间是一种宝贵的资源",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "时间是相对灵活的概念",
+        "key": "B"
+      }
+    ],
+    "title": "你如何看待时间"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "参加大型聚会",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "小范围聚会",
+        "key": "B"
+      }
+    ],
+    "title": "你更喜欢"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "预先计划好旅行",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "随性旅行",
+        "key": "B"
+      }
+    ],
+    "title": "你计划假期时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "以事实为基础",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "以感受为基础",
+        "key": "B"
+      }
+    ],
+    "title": "你更倾向于"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "主动认识新朋友",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "等别人来认识你",
+        "key": "B"
+      }
+    ],
+    "title": "在新的环境中"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "按部就班地完成任务",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "根据情况调整任务",
+        "key": "B"
+      }
+    ],
+    "title": "工作方式"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "细节决定成败",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "全局观更重要",
+        "key": "B"
+      }
+    ],
+    "title": "处理任务时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "遵循逻辑和事实",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "考虑情感和关系",
+        "key": "B"
+      }
+    ],
+    "title": "与人交往时"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "务实且现实",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "富于幻想",
+        "key": "B"
+      }
+    ],
+    "title": "你的思维方式"
+  },
+  {
+    "options": [
+      {
+        "result": "P",
+        "value": "适应环境",
+        "key": "A"
+      },
+      {
+        "result": "J",
+        "value": "控制环境",
+        "key": "B"
+      }
+    ],
+    "title": "面对环境变化"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "参与各种活动",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "独自探索",
+        "key": "B"
+      }
+    ],
+    "title": "闲暇时"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "遵守日程表",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "随时调整计划",
+        "key": "B"
+      }
+    ],
+    "title": "安排日程时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "理性思考",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "感性判断",
+        "key": "B"
+      }
+    ],
+    "title": "思考问题时"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "重视当前现实",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "关注未来可能",
+        "key": "B"
+      }
+    ],
+    "title": "关注点"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "喜欢热闹",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "喜欢安静",
+        "key": "B"
+      }
+    ],
+    "title": "偏好环境"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "计划每一步",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "随意发展",
+        "key": "B"
+      }
+    ],
+    "title": "处理项目时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "分析优缺点",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "依赖直觉",
+        "key": "B"
+      }
+    ],
+    "title": "做决策时"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "关注细节",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "关注整体",
+        "key": "B"
+      }
+    ],
+    "title": "看问题时"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "喜欢群体活动",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "喜欢独自活动",
+        "key": "B"
+      }
+    ],
+    "title": "休闲活动"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "按计划行事",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "随机应变",
+        "key": "B"
+      }
+    ],
+    "title": "处理紧急情况时"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "数据和事实",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "人际关系",
+        "key": "B"
+      }
+    ],
+    "title": "关注的重点"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "具体且实际",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "抽象且可能",
+        "key": "B"
+      }
+    ],
+    "title": "看待世界"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "与朋友外出",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "独自一人",
+        "key": "B"
+      }
+    ],
+    "title": "周末时"
+  },
+  {
+    "options": [
+      {
+        "result": "J",
+        "value": "按计划行事",
+        "key": "A"
+      },
+      {
+        "result": "P",
+        "value": "随机应变",
+        "key": "B"
+      }
+    ],
+    "title": "面对突发事件"
+  },
+  {
+    "options": [
+      {
+        "result": "T",
+        "value": "客观分析",
+        "key": "A"
+      },
+      {
+        "result": "F",
+        "value": "主观感受",
+        "key": "B"
+      }
+    ],
+    "title": "评估情况时"
+  },
+  {
+    "options": [
+      {
+        "result": "S",
+        "value": "重视经验",
+        "key": "A"
+      },
+      {
+        "result": "N",
+        "value": "重视新观点",
+        "key": "B"
+      }
+    ],
+    "title": "处理问题时"
+  },
+  {
+    "options": [
+      {
+        "result": "E",
+        "value": "与他人交流",
+        "key": "A"
+      },
+      {
+        "result": "I",
+        "value": "独立思考",
+        "key": "B"
+      }
+    ],
+    "title": "获取灵感时"
+  }
+]
