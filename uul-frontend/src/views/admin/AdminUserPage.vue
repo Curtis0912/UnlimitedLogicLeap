@@ -14,16 +14,22 @@
     </a-form-item>
   </a-form>
   <a-table :columns="columns" :data="dataList"
-    :pagination="{
+           :pagination="{
       showTotal: true,
       pageSize: searchParams.pageSize,
       current: searchParams.current,
       total,
     }"
-    @page-change="onPageChange"
+           @page-change="onPageChange"
   >
     <template #userAvatar="{ record }">
       <a-image width="64" :src="record.userAvatar" />
+    </template>
+    <template #createTime="{ record }">
+      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+    </template>
+    <template #updateTime="{ record }">
+      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
     </template>
     <template #optional="{ record }">
       <a-button status="danger" @click="doDelete(record)">delete</a-button>
@@ -37,19 +43,20 @@ import { reactive, ref, watchEffect } from "vue";
 import { deleteUserUsingPost, listUserByPageUsingPost } from "@/api/userController";
 import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
+import { dayjs } from "@arco-design/web-vue/es/_utils/date";
 
 const formSearchParams = ref<API.UserQueryRequest>({});
 
 //初始化搜索条件（不应该被修改）
 const initSearchParams = {
   current: 1,
-  pageSize: 10,
-}
+  pageSize: 10
+};
 /**
  * 搜索参数
  */
 const searchParams = ref<API.UserQueryRequest>({
-  ...initSearchParams,
+  ...initSearchParams
 });
 
 /**
@@ -58,15 +65,15 @@ const searchParams = ref<API.UserQueryRequest>({
 const onPageChange = (page: number) => {
   searchParams.value = {
     ...searchParams,
-    current:page,
-  }
-}
+    current: page
+  };
+};
 
 
 /**
  * 定义变量存储获取的数据
  */
-const dataList =ref<API.User[]>([]);
+const dataList = ref<API.User[]>([]);
 const total = ref<number>(0);
 
 /**
@@ -81,32 +88,32 @@ const loadData = async () => {
   } else {
     message.error("获取数据失败，" + res.data.message);
   }
-}
+};
 /**
  * 执行搜索
  */
 const doSearch = () => {
   searchParams.value = {
     ...initSearchParams,
-    ...formSearchParams.value,
+    ...formSearchParams.value
   };
 };
 /**
  * 删除用户
  */
 const doDelete = async (record: API.User) => {
-  if(!record.id) {
+  if (!record.id) {
     return;
   }
   const res = await deleteUserUsingPost({
-    id: record.id,
+    id: record.id
   });
   if (res.data.code === 0) {
     loadData();
   } else {
     message.error("删除失败," + res.data.message);
   }
-}
+};
 
 /**
  * 监听searchParams变量，改变时触发数据的更新加载
@@ -143,16 +150,18 @@ const columns = [
   },
   {
     title: "创建时间",
-    dataIndex: "createTime"
+    dataIndex: "createTime",
+    slotName: "createTime"
   },
   {
     title: "更新时间",
-    dataIndex: "updateTime"
+    dataIndex: "updateTime",
+    slotName: "updateTime"
   },
   {
     title: "操作",
     slotName: "optional"
-  },
+  }
 ];
 const data = reactive([{
   key: "1",
