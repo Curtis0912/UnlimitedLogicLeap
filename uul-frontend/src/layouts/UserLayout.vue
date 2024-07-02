@@ -2,11 +2,11 @@
   <div id="userlayout">
     <a-layout style="height: 100vh">
       <a-layout-header class="header">
-        <a-space>
+        <a-space class="space">
           <img src="../assets/logo.png" class="logo" />
           <div>
-            <div>UnlimitedLogicLeap</div>
-            <div>智能答题应用平台</div>
+<!--            <div>UnlimitedLogicLeap</div>-->
+            <div>UUL智能答题应用平台</div>
           </div>
         </a-space>
       </a-layout-header>
@@ -39,6 +39,10 @@ export default {
   margin-bottom: 15px;
   /*box-shadow: #eee 1px 1px 5px;*/
   font-size: 21px;
+}
+
+.space {
+  margin-top: 30px;
 }
 
 .content {
