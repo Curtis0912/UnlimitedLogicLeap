@@ -23,7 +23,7 @@
     </a-col>
     <a-col flex="100px">
       <div v-if="loginUserStore.loginUser.id">
-        {{ loginUserStore.loginUser.username ?? "无名" }}
+        {{ loginUserStore.loginUser.userName ?? "无名" }}
       </div>
       <div v-else>
         <a-button type="primary" href="/user/login">登录</a-button>
