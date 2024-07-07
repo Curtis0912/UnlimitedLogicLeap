@@ -13,12 +13,15 @@
         >
           <div class="titleBar">
             <img src="../assets/logo.png" class="logo" />
-            <div class="title">UUL智能答题平台</div>
+<!--            <div class="title">UUL智能答题平台</div>-->
+            <h3 style="margin-left: 16px">智跃无限，问答未来——UUL，让知识与你同频共振！</h3>
+
           </div>
         </a-menu-item>
         <a-menu-item v-for="item in visibleRoutes" :key="item.path">
           {{ item.name }}
         </a-menu-item>
+
       </a-menu>
     </a-col>
     <a-col flex="100px">

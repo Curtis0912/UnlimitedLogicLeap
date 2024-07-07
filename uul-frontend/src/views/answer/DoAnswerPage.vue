@@ -21,11 +21,12 @@
           <a-button
             type="primary"
             circle
+            :loading="submitting"
             v-if="current === questionContent.length"
             :disabled="!currentAnswer"
             @click="doSubmit"
           >
-            查看结果
+            {{ submitting ? "分析中" : "查看结果" }}
           </a-button>
           <a-button
             circle
@@ -44,7 +45,6 @@
 import { computed, reactive, ref, watchEffect } from "vue";
 import API from "@/api";
 import { useRouter } from "vue-router";
-import { useLoginUserStore } from "@/store/userStore";
 import message from "@arco-design/web-vue/es/message";
 import { getAppVoByIdUsingGet } from "@/api/appController";
 
@@ -61,6 +61,7 @@ const props = withDefaults(defineProps<Props>(), {
     return "";
   }
 });
+
 
 const app = ref<API.AppVO>({});
 //题目内容结构（题目列表）
@@ -86,6 +87,8 @@ const currentAnswer = ref<string>();
 //回答列表
 const answerList = reactive<string[]>([]);
 
+//是否正在提交
+const submitting = ref(false);
 /**
  * 加载数据
  */
@@ -143,6 +146,7 @@ const doSubmit = async () => {
   if (!props.appId || !answerList) {
     return;
   }
+  submitting.value = true;
   const res = await addUserAnswerUsingPost({
     appId: props.appId as any,
     choices: answerList
@@ -152,6 +156,7 @@ const doSubmit = async () => {
   } else {
     message.error("提交答案失败," + res.data.message);
   }
+  submitting.value = false;
 };
 
 </script>

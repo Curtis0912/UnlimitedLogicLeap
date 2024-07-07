@@ -50,7 +50,12 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
-
+        <!--https://open.bigmodel.cn/dev/api#sdk_install-->
+        <dependency>
+            <groupId>cn.bigmodel.openapi</groupId>
+            <artifactId>oapi-java-sdk</artifactId>
+            <version>release-V4-2.0.2</version>
+        </dependency>
         <!-- https://doc.xiaominfo.com/docs/quick-start#openapi2 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

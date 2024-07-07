@@ -10,7 +10,10 @@
         {{ appId }}
       </a-form-item>
       <a-form-item label="题目列表" :content-flex="false" :merge-props="false">
-        <a-button @click="addQuestion(questionContent.length)">底部添加题目</a-button>
+        <a-space size="large">
+          <a-button @click="addQuestion(questionContent.length)">底部添加题目</a-button>
+          <AIGenerateQuestionModel :appId="appId" :onSuccess="aiGenerateQuestion"/>
+        </a-space>
         <!--        遍历每道题目-->
         <div v-for="(question,index) in questionContent" :key="index">
           <a-space size="large">
@@ -66,7 +69,7 @@ import { useRouter } from "vue-router";
 import { useLoginUserStore } from "@/store/userStore";
 import message from "@arco-design/web-vue/es/message";
 import { addAppUsingPost, editAppUsingPost, getAppVoByIdUsingGet } from "@/api/appController";
-
+import AIGenerateQuestionModel from "@/views/add/components/AIGenerateQuestionModel.vue";
 import { withDefaults, defineProps } from "vue";
 import { addQuestionUsingPost, editQuestionUsingPost, listQuestionVoByPageUsingPost } from "@/api/questionController";
 
@@ -177,6 +180,15 @@ const handleSubmit = async () => {
     message.error("操作失败," + res.data.message);
   }
 };
+
+/**
+ * AI生成题目成功后的处理
+ * @param result
+ */
+const aiGenerateQuestion = (result: API.QuestionContentDTO[]) => {
+  message.success(`AI生成题目成功，生成 ${result.length} 道题目`);
+  questionContent.value = [...questionContent.value,...result];
+}
 
 </script>
 

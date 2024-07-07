@@ -10,10 +10,14 @@ import com.curtis.uul.common.ResultUtils;
 import com.curtis.uul.constant.UserConstant;
 import com.curtis.uul.exception.BusinessException;
 import com.curtis.uul.exception.ThrowUtils;
+import com.curtis.uul.manager.AIManager;
 import com.curtis.uul.model.dto.question.*;
+import com.curtis.uul.model.entity.App;
 import com.curtis.uul.model.entity.Question;
 import com.curtis.uul.model.entity.User;
+import com.curtis.uul.model.enums.AppTypeEnum;
 import com.curtis.uul.model.vo.QuestionVO;
+import com.curtis.uul.service.AppService;
 import com.curtis.uul.service.QuestionService;
 import com.curtis.uul.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +43,12 @@ public class QuestionController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private AppService appService;
+    
+    @Resource
+    private AIManager aiManager;
 
     // region 增删改查
 
@@ -240,4 +250,122 @@ public class QuestionController {
     }
 
     // endregion
+
+    //region
+
+    private static final String GENERATE_QUESTION_SYSTEM_MESSAGE =
+            "你是一位严谨的出题专家，我会给你如下信息：\n" +
+                    "```\n" +
+                    "应用名称，\n" +
+                    "【【【应用描述】】】，\n" +
+                    "应用类别，\n" +
+                    "要生成的题目数，\n" +
+                    "每个题目的选项数\n" +
+                    "```\n" +
+                    "\n" +
+                    "请你根据上述信息，按照以下步骤来出题：\n" +
+                    "1.要求：题目和选项尽可能简短，题目不要包含序号，每题的选项数以我提供的为主，题目不能重复\n" +
+                    "2.严格按照下面的json格式输出题目和选项\n" +
+                    "```\n" +
+                    "[\n" +
+                    "  {\n" +
+                    "    \"options\": [\n" +
+                    "      {\n" +
+                    "        \"value\": \"选项内容\",\n" +
+                    "        \"key\": \"A\"\n" +
+                    "      },\n" +
+                    "      {\n" +
+                    "        \"value\": \"\",\n" +
+                    "        \"key\": \"B\"\n" +
+                    "      }\n" +
+                    "    ],\n" +
+                    "    \"title\": \"题目标题\"\n" +
+                    "  }\n" +
+                    "]\n" +
+                    "```\n" +
+                    "title是题目，options是选项，每个选项的key安装英文字母序（如A、B、C、D)以此类推，value是选项内容\n" +
+                    "3.检查题目是否包含序号，若包含序号则去除序号\n" +
+                    "4.返回的题目列表格式必须为JSON数组";
+
+    private static final String GENERATE_MBTI_QUESTION_SYSTEM_MESSAGE =
+            "你是一位严谨的出题专家，我会给你如下信息：\n" +
+            "```\n" +
+            "应用名称，\n" +
+            "【【【应用描述】】】，\n" +
+            "应用类别，\n" +
+            "要生成的题目数，\n" +
+            "每个题目的选项数\n" +
+            "```\n" +
+            "\n" +
+            "请你根据上述信息，按照以下步骤来出题：\n" +
+            "1.要求：题目和选项尽可能简短，题目不要包含序号，每题的选项数以我提供的为主，题目不能重复\n" +
+            "2.严格按照下面的json格式输出题目和选项\n" +
+            "```\n" +
+            "[\n" +
+            "  {\n" +
+            "    \"options\": [\n" +
+            "      {\n" +
+            "        \"value\": \"选项内容\",\n" +
+            "        \"result\": \"I\",\n" +
+            "        \"key\": \"A\"\n" +
+            "      },\n" +
+            "      {\n" +
+            "        \"value\": \"\",\n" +
+            "        \"result\": \"E\",\n" +
+            "        \"key\": \"B\"\n" +
+            "      }\n" +
+            "    ],\n" +
+            "    \"title\": \"题目标题\"\n" +
+            "  }\n" +
+            "]\n" +
+            "```\n" +
+            "title是题目，options是选项，每个选项的key安装英文字母序（如A、B、C、D)以此类推，value是选项内容,result是选项对应的结果（如I、E）\n" +
+            "3.检查题目是否包含序号，若包含序号则去除序号\n" +
+            "4.返回的题目列表格式必须为JSON数组\n" +
+            "5.result对应的结果依据MBTI16种人格类型评估，要求四个维度题目分布平衡";
+
+    /**
+     * 生成用户消息
+     * @param app
+     * @param questionNumber
+     * @param optionNumber
+     * @return
+     */
+    public String getGenerateQuestionUserMessage(App app, int questionNumber, int optionNumber) {
+        StringBuilder userMessage = new StringBuilder();
+        userMessage.append(app.getAppName()).append("\n");
+        userMessage.append(app.getAppDesc()).append("\n");
+        userMessage.append(AppTypeEnum.getEnumByValue(app.getAppType()).getText()).append("\n");
+        userMessage.append(questionNumber).append("\n");
+        userMessage.append(optionNumber);
+        return userMessage.toString();
+    }
+
+    /**
+     * AI生成题目
+     * @param aiGenerateQuestionRequest
+     * @return
+     */
+    @PostMapping("/ai_generate")
+    public BaseResponse<List<QuestionContentDTO>> AiGenerateQuestion(@RequestBody AIGenerateQuestionRequest aiGenerateQuestionRequest) {
+        ThrowUtils.throwIf(aiGenerateQuestionRequest == null, ErrorCode.PARAMS_ERROR);
+        //获取参数
+        Long appId = aiGenerateQuestionRequest.getAppId();
+        int questionNumber = aiGenerateQuestionRequest.getQuestionNumber();
+        int optionNumber = aiGenerateQuestionRequest.getOptionNumber();
+        App app = appService.getById(appId);
+        ThrowUtils.throwIf(app == null, ErrorCode.PARAMS_ERROR);
+        //封装prompt
+        String userMessage = getGenerateQuestionUserMessage(app, questionNumber, optionNumber);
+        //AI生成
+        String result = aiManager.doSyncRequest(GENERATE_MBTI_QUESTION_SYSTEM_MESSAGE, userMessage, null);
+        //结果处理
+        int start = result.indexOf("[");
+        int end = result.lastIndexOf("]");
+        String json = result.substring(start, end+1);
+        List<QuestionContentDTO> questionContentDTOList = JSONUtil.toList(json, QuestionContentDTO.class);
+        return ResultUtils.success(questionContentDTOList);
+    }
+
+    //endregion
 }

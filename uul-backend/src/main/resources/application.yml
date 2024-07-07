@@ -74,3 +74,7 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.curtis.uul.controller
+
+# AI key
+ai:
+  apiKey: f7781123f62aec04e39a00535b43d213.fhXwsnEKZrffKf58
