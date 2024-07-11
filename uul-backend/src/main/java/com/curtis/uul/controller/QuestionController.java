@@ -1,5 +1,6 @@
 package com.curtis.uul.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.curtis.uul.annotation.AuthCheck;
@@ -20,13 +21,19 @@ import com.curtis.uul.model.vo.QuestionVO;
 import com.curtis.uul.service.AppService;
 import com.curtis.uul.service.QuestionService;
 import com.curtis.uul.service.UserService;
+import com.zhipu.oapi.service.v4.model.ModelData;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 题目接口
@@ -365,6 +372,74 @@ public class QuestionController {
         String json = result.substring(start, end+1);
         List<QuestionContentDTO> questionContentDTOList = JSONUtil.toList(json, QuestionContentDTO.class);
         return ResultUtils.success(questionContentDTOList);
+    }
+
+    /**
+     * AI生成题目(流式数据流）
+     * @param aiGenerateQuestionRequest
+     * @return
+     */
+    @GetMapping("/ai_generate/sse")
+    public SseEmitter AiGenerateQuestionSSE(AIGenerateQuestionRequest aiGenerateQuestionRequest) {
+        ThrowUtils.throwIf(aiGenerateQuestionRequest == null, ErrorCode.PARAMS_ERROR);
+        //获取参数
+        Long appId = aiGenerateQuestionRequest.getAppId();
+        int questionNumber = aiGenerateQuestionRequest.getQuestionNumber();
+        int optionNumber = aiGenerateQuestionRequest.getOptionNumber();
+        //获取应用信息
+        App app = appService.getById(appId);
+        ThrowUtils.throwIf(app == null, ErrorCode.PARAMS_ERROR);
+        //封装prompt
+        String userMessage = getGenerateQuestionUserMessage(app, questionNumber, optionNumber);
+        //建立SSE连接对象，0 表示不超时
+        SseEmitter sseEmitter = new SseEmitter(0L);
+        //AI生成，sse流式返回
+        Flowable<ModelData> modelDataFlowable = aiManager.doStreamRequest(GENERATE_MBTI_QUESTION_SYSTEM_MESSAGE, userMessage, null);
+        //拼接完整题目
+        StringBuilder contentBuilder = new StringBuilder();
+        //调用一个原子类，因为方法是异步的，可能会有多线程
+        //左括号计数器，除了默认值外，当回归为0时，表示左括号等于右括号，可以截取
+        AtomicInteger counter = new AtomicInteger(0);
+        modelDataFlowable
+                //异步线程池执行
+                .observeOn(Schedulers.io())//使用io型线程池持续处理
+                .map(chunk -> chunk.getChoices().get(0).getDelta().getContent())//拿到生成的内容，是一块一块的，可能会有无用的字符，如空白
+                .map(message -> message.replaceAll("\\s",""))//把所有特殊字符 转换成空字符
+                .filter(StrUtil::isNotBlank)//过滤，只保留非空的
+                .flatMap(message -> {//把一个流变成多条流（即分流）
+                    //将字符串转换成 List<Character>
+                    List<Character> charList = new ArrayList<>();
+                    for (char c : message.toCharArray()) {
+                        charList.add(c);
+                    }
+                    return Flowable.fromIterable(charList);
+                })
+                .doOnNext(c -> {
+                            {
+                                //识别第一个 { 表示开始AI传输json数据，用counter开始判断是否结束
+                                //如果是'{'，计数器counter+1
+                                if (c =='{') {
+                                    counter.addAndGet(1);
+                                }
+                                //当计数器大于1时，开始拼接
+                                if (counter.get() > 0) {
+                                    contentBuilder.append(c);
+                                }
+                                if (c == '}') {
+                                    counter.addAndGet(-1);
+                                    if (counter.get() == 0) {
+                                        //表示已经展示出完整的一道题目，可以拼接，并且通过SSE返回给前端
+                                        sseEmitter.send(JSONUtil.toJsonStr(contentBuilder.toString()));
+                                        //重置，准备拼接下一道题
+                                        contentBuilder.setLength(0);
+                                    }
+                                }
+                            }
+                })
+                .doOnError((e) -> log.error("sse error",e))
+                .doOnComplete(sseEmitter::complete)
+                .subscribe();
+        return sseEmitter;
     }
 
     //endregion

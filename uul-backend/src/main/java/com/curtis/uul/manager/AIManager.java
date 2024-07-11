@@ -4,10 +4,8 @@ import com.curtis.uul.common.ErrorCode;
 import com.curtis.uul.exception.BusinessException;
 import com.zhipu.oapi.ClientV4;
 import com.zhipu.oapi.Constants;
-import com.zhipu.oapi.service.v4.model.ChatCompletionRequest;
-import com.zhipu.oapi.service.v4.model.ChatMessage;
-import com.zhipu.oapi.service.v4.model.ChatMessageRole;
-import com.zhipu.oapi.service.v4.model.ModelApiResponse;
+import com.zhipu.oapi.service.v4.model.*;
+import io.reactivex.Flowable;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -27,6 +25,97 @@ public class AIManager {
     private static final Float STABLE_TEMPERATURE = 0.05f;
     //不稳定的随机数
     private static final Float UNSTABLE_TEMPERATURE = 0.99f;
+
+
+    /**
+     * 通用流式请求（简化消息传递）
+     * @param systemMessage
+     * @param userMessage
+     * @param temperature
+     * @return
+     */
+    public Flowable<ModelData> doStreamRequest(String systemMessage, String userMessage, Float temperature) {
+        List<ChatMessage> chatMessageList = new ArrayList<>();
+        ChatMessage systemChatMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), systemMessage);
+        chatMessageList.add(systemChatMessage);
+        ChatMessage userChatMessage = new ChatMessage(ChatMessageRole.USER.value(), userMessage);
+        chatMessageList.add(userChatMessage);
+        return doStreamRequest(chatMessageList, temperature);
+    }
+
+    /**
+     * 通用流式请求
+     *
+     * @param messages
+     * @param temperature 采样温度，控制输出随机性  默认0.95
+     * @return
+     */
+    public Flowable<ModelData> doStreamRequest(List<ChatMessage> messages, Float temperature) {
+        // 构建请求
+        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
+                .model(Constants.ModelChatGLM4)
+                .stream(Boolean.TRUE)
+                .temperature(temperature)
+                .invokeMethod(Constants.invokeMethod)
+                .messages(messages)
+                .build();
+        try {
+            ModelApiResponse invokeModelApiResp = clientV4.invokeModelApi(chatCompletionRequest);
+            return invokeModelApiResp.getFlowable();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, e.getMessage());
+        }
+    }
+
+    /**
+     * 同步请求（答案较稳定）
+     * @param systemMessage
+     * @param userMessage
+     * @return
+     */
+    public String doSyncStableRequest(String systemMessage, String userMessage) {
+        return doSyncRequest(systemMessage, userMessage, STABLE_TEMPERATURE);
+    }
+
+    /**
+     * 同步请求（答案不稳定）
+     * @param systemMessage
+     * @param userMessage
+     * @return
+     */
+    public String doSyncUnstableRequest(String systemMessage, String userMessage) {
+        return doSyncRequest(systemMessage, userMessage, UNSTABLE_TEMPERATURE);
+    }
+
+
+    /**
+     * 同步请求
+     * @param systemMessage
+     * @param userMessage
+     * @param temperature
+     * @return
+     */
+    public String doSyncRequest(String systemMessage, String userMessage, Float temperature) {
+        return doRequest(systemMessage, userMessage, false, temperature);
+    }
+
+    /**
+     * 通用请求（简化消息传递）
+     * @param systemMessage
+     * @param userMessage
+     * @param stream
+     * @param temperature
+     * @return
+     */
+    public String doRequest(String systemMessage, String userMessage, Boolean stream, Float temperature) {
+        List<ChatMessage> chatMessageList = new ArrayList<>();
+        ChatMessage systemChatMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), systemMessage);
+        chatMessageList.add(systemChatMessage);
+        ChatMessage userChatMessage = new ChatMessage(ChatMessageRole.USER.value(), userMessage);
+        chatMessageList.add(userChatMessage);
+        return doRequest(chatMessageList, stream, temperature);
+    }
 
     /**
      * 通用请求
@@ -54,53 +143,7 @@ public class AIManager {
         }
     }
 
-    /**
-     * 通用请求（简化消息传递）
-     * @param systemMessage
-     * @param userMessage
-     * @param stream
-     * @param temperature
-     * @return
-     */
-    public String doRequest(String systemMessage, String userMessage, Boolean stream, Float temperature) {
-        List<ChatMessage> chatMessageList = new ArrayList<>();
-        ChatMessage systemChatMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), systemMessage);
-        chatMessageList.add(systemChatMessage);
-        ChatMessage userChatMessage = new ChatMessage(ChatMessageRole.USER.value(), userMessage);
-        chatMessageList.add(userChatMessage);
-        return doRequest(chatMessageList, stream, temperature);
-    }
 
-    /**
-     * 同步请求
-     * @param systemMessage
-     * @param userMessage
-     * @param temperature
-     * @return
-     */
-    public String doSyncRequest(String systemMessage, String userMessage, Float temperature) {
-        return doRequest(systemMessage, userMessage, false, temperature);
-    }
-
-    /**
-     * 同步请求（答案较稳定）
-     * @param systemMessage
-     * @param userMessage
-     * @return
-     */
-    public String doSyncStableRequest(String systemMessage, String userMessage) {
-        return doSyncRequest(systemMessage, userMessage, STABLE_TEMPERATURE);
-    }
-
-    /**
-     * 同步请求（答案不稳定）
-     * @param systemMessage
-     * @param userMessage
-     * @return
-     */
-    public String doSyncUnstableRequest(String systemMessage, String userMessage) {
-        return doSyncRequest(systemMessage, userMessage, UNSTABLE_TEMPERATURE);
-    }
 
 
 }
