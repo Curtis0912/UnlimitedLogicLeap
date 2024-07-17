@@ -12,7 +12,13 @@
       <a-form-item label="题目列表" :content-flex="false" :merge-props="false">
         <a-space size="large">
           <a-button @click="addQuestion(questionContent.length)">底部添加题目</a-button>
-          <AIGenerateQuestionModel :appId="appId" :onSuccess="aiGenerateQuestion"/>
+          <AIGenerateQuestionModel
+            :appId="appId"
+            :onSuccess="aiGenerateQuestion"
+            :onSSESuccess="aiGenerateQuestionSSE"
+            :onSSEStart="onSSEStart"
+            :onSSEClose="onSSEClose"
+          />
         </a-space>
         <!--        遍历每道题目-->
         <div v-for="(question,index) in questionContent" :key="index">
@@ -190,6 +196,27 @@ const aiGenerateQuestion = (result: API.QuestionContentDTO[]) => {
   questionContent.value = [...questionContent.value,...result];
 }
 
+/**
+ * AI生成题目成功后的处理(SSE)
+ * @param result
+ */
+const aiGenerateQuestionSSE = (result: API.QuestionContentDTO) => {
+  questionContent.value = [...questionContent.value,result];
+}
+
+/**
+ * SSE开始生成
+ */
+const onSSEStart = (event: any) => {
+  message.success("开始生成");
+}
+
+/**
+ * SSE生成结束
+ */
+const onSSEClose = (event: any) => {
+  message.success("生成结束");
+}
 </script>
 
 <style scoped>
