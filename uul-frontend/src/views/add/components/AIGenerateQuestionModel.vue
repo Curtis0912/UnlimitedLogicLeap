@@ -1,6 +1,6 @@
 <template>
   <a-button type="outline" @click="handleClick">AI 生成题目</a-button>
-  <a-modal v-model:visible="visible" title="AI 生成题目" @cancel="handleCancel" @before-ok="handleBeforeOk" hideCancel >
+  <a-modal v-model:visible="visible" title="AI 生成题目" @cancel="handleCancel" @before-ok="handleBeforeOk" :footer="false">
     <a-form :model="form" @submit="handleSubmit">
       <a-form-item label="应用id">
         {{ appId }}
