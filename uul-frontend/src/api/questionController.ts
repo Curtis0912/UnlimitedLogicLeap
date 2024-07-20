@@ -47,6 +47,21 @@ export async function aiGenerateQuestionSseUsingGet(
   });
 }
 
+/** AiGenerateQuestionSSETest GET /api/question/ai_generate/sse/test */
+export async function aiGenerateQuestionSseTestUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.AiGenerateQuestionSSETestUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.SseEmitter>('/api/question/ai_generate/sse/test', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** deleteQuestion POST /api/question/delete */
 export async function deleteQuestionUsingPost(
   body: API.DeleteRequest,
