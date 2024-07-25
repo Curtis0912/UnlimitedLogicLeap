@@ -12,13 +12,13 @@
         }"
       >
         <img
-          :style="{ width: '100%', transform: 'translateY(-20px)' }"
+          :style="{ width: '100%', height: '100%', transform: 'translateY(-20px)'}"
           :alt="app.appName"
           :src="app.appIcon"
         />
       </div>
     </template>
-    <a-card-meta :title="app.appName" :description="app.appDesc">
+    <a-card-meta :title="app.appName" :description="app.appDesc.slice(0,18)">
       <template #avatar>
         <div
           :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }"
@@ -31,7 +31,7 @@
       </template>
     </a-card-meta>
   </a-card>
-  <ShareModel ref="shareModalRef" :link="shareLink" title="应用分享"/>
+  <ShareModal ref="shareModalRef" :link="shareLink" title="应用分享"/>
 </template>
 
 <script setup lang="ts">
@@ -41,9 +41,9 @@ import {
   IconMore,
 } from '@arco-design/web-vue/es/icon';
 import API from '@/api';
-import { withDefaults, defineProps, ref } from "vue";
+import { withDefaults, defineProps, ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import ShareModel from "@/components/ShareModel.vue";
+import ShareModal from "@/components/ShareModal.vue";
 
 
 interface Props {
@@ -80,6 +80,7 @@ const doCardClick = () => {
 <style scoped>
 .appCard {
   cursor: pointer;
+  height: 330px;
 }
 .icon-hover {
   display: flex;

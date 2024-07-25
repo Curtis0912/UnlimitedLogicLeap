@@ -722,6 +722,11 @@ declare namespace API {
     timeout?: number;
   };
 
+  type TestDownloadFileUsingGETParams = {
+    /** filepath */
+    filepath?: string;
+  };
+
   type uploadFileUsingPOSTParams = {
     biz?: string;
   };

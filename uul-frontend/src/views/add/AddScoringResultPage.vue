@@ -14,12 +14,12 @@
       <a-form-item field="resultDesc" label="结果描述">
         <a-input v-model="form.resultDesc" placeholder="请输入结果描述" />
       </a-form-item>
-      <a-form-item field="resultPicture" label="结果图标">
-        <a-input v-model="form.resultPicture" placeholder="请输入结果图标地址" />
-      </a-form-item>
-      <!--      <a-form-item field="resultPicture" label="结果图标">-->
-      <!--        <PictureUploader :value="form.resultPicture" :onChange="(value) => (form.resultPicture = value)" />-->
-      <!--      </a-form-item>-->
+<!--      <a-form-item field="resultPicture" label="结果图标">-->
+<!--        <a-input v-model="form.resultPicture" placeholder="请输入结果图标地址" />-->
+<!--      </a-form-item>-->
+            <a-form-item field="resultPicture" label="结果图标">
+              <PictureUploader biz="scoring_result_picture" :value="form.resultPicture" :onChange="(value) => (form.resultPicture = value)" />
+            </a-form-item>
       <a-form-item field="resultProp" label="结果集">
         <a-input-tag v-model="form.resultProp" :style="{ width: '320px'}" placeholder="请输入结果集,按回车确认" allow-clear />
       </a-form-item>

@@ -25,9 +25,18 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div v-if="loginUserStore.loginUser.id">
-        {{ loginUserStore.loginUser.userName ?? "无名" }}
-      </div>
+      <a-dropdown v-if="loginUserStore.loginUser.id" trigger="hover">
+        <a-button>{{ loginUserStore.loginUser.userName ?? "无名" }}</a-button>
+        <template #content>
+          <div>
+            <a-button @click="inToInfo">个人信息</a-button>
+          </div>
+          <UserInfoModal />
+          <div>
+            <a-button @click="logoutUser">退出登录</a-button>
+          </div>
+        </template>
+      </a-dropdown>
       <div v-else>
         <a-button type="primary" href="/user/login">登录</a-button>
       </div>
@@ -38,9 +47,12 @@
 <script setup lang="ts">
 import { routes } from "@/router/routes";
 import { useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useLoginUserStore } from "@/store/userStore";
 import checkAccess from "@/access/checkAccess";
+import { userLogoutUsingPost } from "@/api/userController";
+import message from "@arco-design/web-vue/es/message";
+import UserInfoModal from "@/components/UserInfoModal.vue";
 
 const router = useRouter();
 
@@ -74,6 +86,23 @@ const visibleRoutes = computed(() => {
     return true;
   });
 })
+
+const inToInfo = ref();
+
+
+/**
+ * 退出登录
+ */
+const logoutUser = async () => {
+  const res = await userLogoutUsingPost();
+  if (res.data.code === 0) {
+    message.success("退出登录成功");
+    router.push('/user/login');
+  } else {
+    message.error("退出登录失败，" + res.data.message);
+  }
+}
+
 </script>
 
 <style scoped>

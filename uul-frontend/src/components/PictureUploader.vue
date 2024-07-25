@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { IconEdit, IconPlus } from "@arco-design/web-vue/es/icon";
-import { ref, withDefaults, defineProps } from "vue";
+import { ref, withDefaults, defineProps, watchEffect } from "vue";
 import { uploadFileUsingPost } from "@/api/fileController";
 import { Message } from "@arco-design/web-vue";
 
@@ -69,13 +69,18 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const file = ref();
-if (props.value) {
-  file.value = {
-    url: props.value,
-    percent: 100,
-    status: "done",
-  };
-}
+watchEffect(() => {
+  if (props.value) {
+    file.value = {
+      url: props.value,
+      percent: 100,
+      status: "done",
+    };
+  } else {
+    file.value = null;
+  }
+})
+
 
 // 自定义请求
 const customRequest = async (option: any) => {

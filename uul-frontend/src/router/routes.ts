@@ -171,4 +171,5 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
+
 ];

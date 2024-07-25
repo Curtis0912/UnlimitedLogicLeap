@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+// @ts-ignore
 import QRCode from "qrcode";
 import { defineProps, ref, withDefaults, defineExpose } from "vue";
 

@@ -30,11 +30,11 @@
           </a-space>
         </a-col>
         <a-col width="100%" flex="320px">
-          <a-image width="64" :src="data.appIcon" />
+          <a-image width="100%" :src="data.appIcon" />
         </a-col>
       </a-row>
     </a-card>
-    <ShareModel ref="shareModalRef" :link="shareLink" title="应用分享"/>
+    <ShareModal ref="shareModalRef" :link="shareLink" title="应用分享"/>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ import { withDefaults, defineProps } from "vue";
 import { dayjs } from "@arco-design/web-vue/es/_utils/date";
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
 import { useLoginUserStore } from "@/store/userStore";
-import ShareModel from "@/components/ShareModel.vue";
+import ShareModal from "@/components/ShareModal.vue";
 
 
 interface Props {
