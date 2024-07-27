@@ -15,7 +15,7 @@ public class QuestionControllerTest {
     @Test
     void aiGenerateQuestionSSEVIPTest() throws InterruptedException {
         AIGenerateQuestionRequest request = new AIGenerateQuestionRequest();
-        request.setAppId(3L);
+        request.setAppId(1817113365946957826L);
         request.setQuestionNumber(10);
         request.setOptionNumber(2);
 

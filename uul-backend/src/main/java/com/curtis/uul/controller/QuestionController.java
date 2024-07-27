@@ -405,12 +405,16 @@ public class QuestionController {
         //左括号计数器，除了默认值外，当回归为0时，表示左括号等于右括号，可以截取
         AtomicInteger counter = new AtomicInteger(0);
 
+        //获取用户信息
+//        User loginUser = userService.getLoginUser(request); ??很奇怪，获取不到request
+        Long userId = app.getUserId();
+        User user = userService.getById(userId);
+        String userRole = user.getUserRole();
+
         //默认全局线程池
         Scheduler scheduler = Schedulers.io();
-        //获取用户信息
-        User loginUser = userService.getLoginUser(request);
         //如果是用户是vip，则使用定制线程池，先用admin代替
-        if ("admin".equals(loginUser.getUserRole())) {
+        if ("admin".equals(userRole)) {
             scheduler = vipScheduler;
         }
         modelDataFlowable

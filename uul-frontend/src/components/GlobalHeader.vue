@@ -29,9 +29,8 @@
         <a-button>{{ loginUserStore.loginUser.userName ?? "无名" }}</a-button>
         <template #content>
           <div>
-            <a-button @click="inToInfo">个人信息</a-button>
+            <a-button @click="doUserInfo">个人信息</a-button>
           </div>
-          <UserInfoModal />
           <div>
             <a-button @click="logoutUser">退出登录</a-button>
           </div>
@@ -42,6 +41,8 @@
       </div>
     </a-col>
   </a-row>
+  <UserInfoModal ref="userInfoRef" :id="loginUserStore.loginUser.id" title="个人信息"/>
+
 </template>
 
 <script setup lang="ts">
@@ -87,8 +88,15 @@ const visibleRoutes = computed(() => {
   });
 })
 
-const inToInfo = ref();
+//个人信息表单引用
+const userInfoRef = ref();
 
+//个人信息
+const doUserInfo = (e: Event) => {
+  if (userInfoRef.value) {
+    userInfoRef.value.openModal();
+  }
+}
 
 /**
  * 退出登录
