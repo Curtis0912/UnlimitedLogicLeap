@@ -107,7 +107,7 @@ const handleSSESubmit = async () => {
   const eventSource = new EventSource(
     // todo 手动填写完整的后端地址
     "http://localhost:8101/api/question/ai_generate/sse" +
-    `?appId=${props.appId}&optionNumber=${form.optionNumber}&questionNumber${form.questionNumber}`
+    `?appId=${props.appId}&optionNumber=${form.optionNumber}&questionNumber=${form.questionNumber}`
   );
   let first = true;
   //接收消息
@@ -125,6 +125,8 @@ const handleSSESubmit = async () => {
     if (event.eventPhase === EventSource.CLOSED) {
       console.log("连接已关闭");
       props.onSSEClose?.(event);
+      eventSource.close();
+    } else {
       eventSource.close();
     }
   }

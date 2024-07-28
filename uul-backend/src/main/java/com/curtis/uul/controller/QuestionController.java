@@ -283,10 +283,14 @@ public class QuestionController {
                     "    \"options\": [\n" +
                     "      {\n" +
                     "        \"value\": \"选项内容\",\n" +
+                    "        \"result\": \"I\",\n" +
+                    "        \"score\": \"1\",\n" +
                     "        \"key\": \"A\"\n" +
                     "      },\n" +
                     "      {\n" +
                     "        \"value\": \"\",\n" +
+                    "        \"result\": \"E\",\n" +
+                    "        \"score\": \"0\",\n" +
                     "        \"key\": \"B\"\n" +
                     "      }\n" +
                     "    ],\n" +
@@ -294,9 +298,12 @@ public class QuestionController {
                     "  }\n" +
                     "]\n" +
                     "```\n" +
-                    "title是题目，options是选项，每个选项的key安装英文字母序（如A、B、C、D)以此类推，value是选项内容\n" +
+                    "title是题目，options是选项，每个选项的key安装英文字母序（如A、B、C、D)以此类推，\n" +
+                    "value是选项内容，result是选项对应的结果类型（如I、E），score是选项对应的得分（正确选项得分为1，错误为0）\n" +
+                    "3.当应用类型是测评类时，score全设为空，当应用类型是得分类时，每道题只有一个正确选项并且result全设为空\n" +
                     "3.检查题目是否包含序号，若包含序号则去除序号\n" +
-                    "4.返回的题目列表格式必须为JSON数组";
+                    "4.返回的题目列表格式必须为JSON数组" +
+                    "5.检查应用类型是得分类时，每道题是否只有一个正确选项";
 
     private static final String GENERATE_MBTI_QUESTION_SYSTEM_MESSAGE =
             "你是一位严谨的出题专家，我会给你如下信息：\n" +
@@ -369,7 +376,7 @@ public class QuestionController {
         //封装prompt
         String userMessage = getGenerateQuestionUserMessage(app, questionNumber, optionNumber);
         //AI生成
-        String result = aiManager.doSyncRequest(GENERATE_MBTI_QUESTION_SYSTEM_MESSAGE, userMessage, null);
+        String result = aiManager.doSyncRequest(GENERATE_QUESTION_SYSTEM_MESSAGE, userMessage, null);
         //结果处理
         int start = result.indexOf("[");
         int end = result.lastIndexOf("]");
@@ -398,7 +405,7 @@ public class QuestionController {
         //建立SSE连接对象，0 表示不超时
         SseEmitter sseEmitter = new SseEmitter(0L);
         //AI生成，sse流式返回
-        Flowable<ModelData> modelDataFlowable = aiManager.doStreamRequest(GENERATE_MBTI_QUESTION_SYSTEM_MESSAGE, userMessage, null);
+        Flowable<ModelData> modelDataFlowable = aiManager.doStreamRequest(GENERATE_QUESTION_SYSTEM_MESSAGE, userMessage, null);
         //拼接完整题目
         StringBuilder contentBuilder = new StringBuilder();
         //调用一个原子类，因为方法是异步的，可能会有多线程

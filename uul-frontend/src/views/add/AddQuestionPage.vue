@@ -79,6 +79,9 @@ import AIGenerateQuestionModel from "@/views/add/components/AIGenerateQuestionMo
 import { withDefaults, defineProps } from "vue";
 import { addQuestionUsingPost, editQuestionUsingPost, listQuestionVoByPageUsingPost } from "@/api/questionController";
 
+const loginUserStore = useLoginUserStore();
+
+
 interface Props {
   appId: string,
 }
@@ -155,7 +158,7 @@ watchEffect(() => {
 });
 
 const router = useRouter();
-const loginUserStore = useLoginUserStore();
+
 /**
  * 提交表单
  * @param data
