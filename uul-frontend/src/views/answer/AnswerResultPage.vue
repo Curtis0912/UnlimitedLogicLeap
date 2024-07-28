@@ -2,7 +2,7 @@
   <div id="answerResultPage">
     <a-card>
       <a-row class="grid-demo" style="margin-bottom: 16px;">
-        <a-col flex="auto" class="content">
+        <a-col flex="600px" class="content">
           <h1>{{ data.resultName }}</h1>
           <p>结果描述：{{ data.resultDesc }}</p>
           <p>结果id：{{ data.resultId }}</p>
@@ -14,23 +14,23 @@
           <p>
             <a-space>
               答题人：
-          <div :style="{ display: 'flex',alignItems: 'center'}">
-            <a-avatar
-              :image-url="data.user?.userAvatar"
-              :size="24"
-              :style="{ marginRight: '8px' }"
-            />
-            <a-typography-text>{{ data.user?.userName ?? "somebody" }}</a-typography-text>
-          </div>
-          </a-space>
+              <div :style="{ display: 'flex',alignItems: 'center'}">
+                <a-avatar
+                  :image-url="data.user?.userAvatar"
+                  :size="24"
+                  :style="{ marginRight: '8px' }"
+                />
+                <a-typography-text>{{ data.user?.userName ?? "somebody" }}</a-typography-text>
+              </div>
+            </a-space>
           </p>
           <p>答题时间：{{ dayjs(data.updateTime).format("YYYY-MM-DD HH:mm:ss") }}</p>
           <a-space size="medium">
             <a-button :href="`/answer/do/${data.appId}`" type="primary">重新答题</a-button>
           </a-space>
         </a-col>
-        <a-col width="100%" flex="320px">
-          <a-image width="64" :src="data.userAnswerIcon" />
+        <a-col flex="500px" style="margin-left: 20px">
+          <a-image width="500" :src="data.resultPicture" />
         </a-col>
       </a-row>
     </a-card>

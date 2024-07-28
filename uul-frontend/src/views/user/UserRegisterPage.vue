@@ -2,22 +2,22 @@
   <div id="userRegisterPage">
     <h2 style="margin-bottom: 50px">用户注册</h2>
     <a-form :model="form" style=" width: 400px; margin:0 auto " @submit="handleSubmit" auto-label-width label-align="left">
-      <a-form-item field="userAccount" tooltip="Please enter userAccount" label="userAccount">
+      <a-form-item field="userAccount" tooltip="请输入你的账号" label="账号" required hide-asterisk>
         <a-input
           v-model="form.userAccount"
-          placeholder="please enter your userAccount"
+          placeholder="请输入你的账号"
         />
       </a-form-item>
-      <a-form-item field="userPassword" tooltip="密码不能少于8位" label="userPassword">
-        <a-input-password v-model="form.userPassword" placeholder="please enter your userPassword" />
+      <a-form-item field="userPassword" tooltip="密码不能少于8位" label="密码" required hide-asterisk>
+        <a-input-password v-model="form.userPassword" placeholder="请输入你的密码" />
       </a-form-item>
-      <a-form-item field="checkPassword" tooltip="验证密码不能少于8位" label="checkPassword">
-        <a-input-password v-model="form.checkPassword" placeholder="please enter your checkPassword" />
+      <a-form-item field="checkPassword" tooltip="验证密码不能少于8位" label="校验密码" required hide-asterisk>
+        <a-input-password v-model="form.checkPassword" placeholder="请再次输入你的密码" />
       </a-form-item>
       <a-form-item>
         <div style="width: 100%;display: flex;align-items: center;justify-content: space-between">
-          <a-button type="primary" style="width: 120px" html-type="submit">Register</a-button>
-          <a-link href="/user/login">olduser Login</a-link>
+          <a-button type="primary" style="width: 120px" html-type="submit">注册</a-button>
+          <a-link href="/user/login">老用户登录</a-link>
         </div>
       </a-form-item>
     </a-form>
