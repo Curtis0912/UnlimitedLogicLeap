@@ -1,7 +1,7 @@
 <template>
   <div id="homePage">
     <div class="searchBar">
-      <a-input-search size="large" :style="{width:'320px'}" placeholder="请输入答题应用名称" button-text="搜索" search-button />
+      <a-input-search size="large" :style="{width:'320px', borderRadius: '8px' }" placeholder="请输入答题应用名称" button-text="搜索" search-button />
     </div>
   </div>
   <a-list
@@ -85,8 +85,9 @@ watchEffect(() => {
 
 }
 .searchBar {
-  text-align: center;
-  margin-bottom: 28px;
+  display: flex;        /* 使用Flexbox布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center;     /* 垂直居中 */
 }
 .list-demo-action-layout .image-area {
   width: 183px;

@@ -16,8 +16,11 @@ import java.util.List;
 */
 public interface UserAnswerMapper extends BaseMapper<UserAnswer> {
 
-    @Select("select appId,COUNT(userId) as answerCount from user_answer\n" +
-            "group by appId order by answerCount desc;")
+    @Select("SELECT appId, appName ,COUNT(user_answer.userId) as answerCount\n" +
+            "FROM app\n" +
+            "JOIN user_answer ON app.id = user_answer.appId\n" +
+            "GROUP BY appId\n" +
+            "ORDER BY answerCount DESC;")
     List<AppAnswerCountDTO> doAppAnswerCount();
 
     @Select("select resultName, COUNT(resultName) as resultCount from user_answer\n" +

@@ -3,7 +3,7 @@
     <a-layout style="height: 100vh">
       <a-layout-header class="header">
         <a-space class="space">
-          <img src="../assets/logo.png" class="logo" />
+          <img src="https://ull-1327358678.cos.ap-guangzhou.myqcloud.com/logo.png" class="logo" />
           <div>
 <!--            <div>UnlimitedLogicLeap</div>-->
             <div>UUL智能答题应用平台</div>
@@ -13,7 +13,10 @@
       <a-layout-content class="content">
         <router-view />
       </a-layout-content>
-      <a-layout-footer class="footer">By Curtis</a-layout-footer>
+      <a-layout-footer class="footer">
+        <div>天下之事，困于想，而破于行</div>
+        <div>By Curtis</div>
+      </a-layout-footer>
     </a-layout>
   </div>
 </template>
@@ -54,5 +57,8 @@ export default {
   background-color: #efefef;
   text-align: center;
   padding: 15px;
+}
+.footer div {
+  margin-bottom: 5px;
 }
 </style>

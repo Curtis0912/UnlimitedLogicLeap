@@ -7,7 +7,10 @@
       <a-layout-content class="content">
         <router-view />
       </a-layout-content>
-      <a-layout-footer class="footer">By Curtis</a-layout-footer>
+      <a-layout-footer class="footer">
+        <div>天下之事，困于想，而破于行</div>
+        <div>By Curtis</div>
+      </a-layout-footer>
     </a-layout>
   </div>
 </template>
@@ -42,5 +45,8 @@ export default {
   background-color: #efefef;
   text-align: center;
   padding: 15px;
+}
+.footer div {
+  margin-bottom: 5px;
 }
 </style>

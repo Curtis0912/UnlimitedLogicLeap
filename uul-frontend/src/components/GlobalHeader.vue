@@ -1,25 +1,24 @@
 <template>
   <a-row id="globalHeader" align="center" :wrap="false">
+    <a-col flex="500px">
+      <div class="titleBar">
+        <img src="https://ull-1327358678.cos.ap-guangzhou.myqcloud.com/logo.png" class="logo" />
+        <!--            <div class="title">UUL智能答题平台</div>-->
+        <h3 style="margin-left: 16px">智跃无限，问答未来——UUL，让知识与你同频共振！</h3>
+      </div>
+    </a-col>
     <a-col flex="auto">
+
       <a-menu
         mode="horizontal"
         :selected-keys="selectedKeys"
         @menu-item-click="doMenuClick"
       >
-        <a-menu-item
-          key="0"
-          :style="{ padding: 0, marginRight: '38px' }"
-          disabled
-        >
-          <div class="titleBar">
-            <img src="../assets/logo.png" class="logo" />
-<!--            <div class="title">UUL智能答题平台</div>-->
-            <h3 style="margin-left: 16px">智跃无限，问答未来——UUL，让知识与你同频共振！</h3>
 
+        <a-menu-item v-for="item in visibleRoutes" :key="item.path" class="menu_controller">
+          <div class="menu_div">
+            {{ item.name }}
           </div>
-        </a-menu-item>
-        <a-menu-item v-for="item in visibleRoutes" :key="item.path">
-          {{ item.name }}
         </a-menu-item>
 
       </a-menu>
@@ -32,6 +31,9 @@
             <a-button @click="doUserInfo">个人信息</a-button>
           </div>
           <div>
+            <a-button @click="toBeVIP">打赏作者</a-button>
+          </div>
+          <div>
             <a-button @click="logoutUser">退出登录</a-button>
           </div>
         </template>
@@ -42,7 +44,7 @@
     </a-col>
   </a-row>
   <UserInfoModal ref="userInfoRef" :id="loginUserStore.loginUser.id" title="个人信息"/>
-
+  <ToBeVIPModal ref="toBeVIPRef" title="感谢支持"/>
 </template>
 
 <script setup lang="ts">
@@ -54,7 +56,7 @@ import checkAccess from "@/access/checkAccess";
 import { userLogoutUsingPost } from "@/api/userController";
 import message from "@arco-design/web-vue/es/message";
 import UserInfoModal from "@/components/UserInfoModal.vue";
-
+import ToBeVIPModal from "@/components/ToBeVIPModal.vue";
 const router = useRouter();
 
 const loginUserStore = useLoginUserStore();
@@ -98,6 +100,15 @@ const doUserInfo = (e: Event) => {
   }
 }
 
+//成为会员引用
+const toBeVIPRef = ref();
+//成为会员
+const toBeVIP = () => {
+  if (toBeVIPRef.value) {
+    toBeVIPRef.value.openModal();
+  }
+}
+
 /**
  * 退出登录
  */
@@ -116,10 +127,20 @@ const logoutUser = async () => {
 <style scoped>
 #globalHeader {
 }
-
+.menu_controller {
+  width: 80px;
+  height: 50px;
+}
+.menu_div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
 .titleBar {
   display: flex;
   align-items: center;
+  margin-left: 20px;
 }
 
 .title {
