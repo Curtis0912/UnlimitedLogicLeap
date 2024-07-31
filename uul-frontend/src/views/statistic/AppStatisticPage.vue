@@ -39,6 +39,7 @@ const appAnswerCountList = ref<API.AppAnswerCountDTO[]>([]);
 const appAnswerResultCountList = ref<API.AppAnswerResultCountDTO[]>([]);
 const appCountList = ref<API.AppCountDTO[]>([])
 
+
 /**
  * 加载数据  热门应用
  */
@@ -54,8 +55,8 @@ const appAnswerCountOptions = computed(() => {
   return {
     xAxis: {
       type: 'category',
-      data: appAnswerCountList.value.map((item) => item.appId),
-      name: "应用 id"
+      data: appAnswerCountList.value.map((item) => item.appName),
+      name: "应用名称"
     },
     yAxis: {
       type: 'value',
@@ -102,7 +103,7 @@ const appAnswerResultCountOptions = computed(() => {
     },
     series: [
       {
-        name: 'Nightingale Chart',
+        name: '结果类型',
         type: 'pie',
         radius: [50, 120],
         center: ['50%', '50%'],

@@ -27,7 +27,9 @@ public class RedissonConfig {
         config.useSingleServer()
                 .setAddress("redis://" + host + ":" + port)
                 .setDatabase(database)
-                .setPassword(password);
+                .setPassword(password)
+                .setConnectTimeout(10000) // 设置连接超时，单位毫秒
+                .setTimeout(10000);// 设置操作超时，单位毫秒
         return Redisson.create(config);
     }
 }

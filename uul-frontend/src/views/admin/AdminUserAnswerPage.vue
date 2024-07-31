@@ -12,13 +12,13 @@
         allow-clear
       />
     </a-form-item>
-    <a-form-item field="resultDesc" label="结果描述">
-      <a-input
-        v-model="formSearchParams.resultDesc"
-        placeholder="请输入结果描述"
-        allow-clear
-      />
-    </a-form-item>
+<!--    <a-form-item field="resultDesc" label="结果描述">-->
+<!--      <a-input-->
+<!--        v-model="formSearchParams.resultDesc"-->
+<!--        placeholder="请输入结果描述"-->
+<!--        allow-clear-->
+<!--      />-->
+<!--    </a-form-item>-->
     <a-form-item field="appId" label="应用 id">
       <a-input
         v-model="formSearchParams.appId"

@@ -4,13 +4,13 @@
           layout="inline"
           @submit="doSearch">
     <a-form-item field="userName" label="用户名">
-      <a-input allow-clear v-model="formSearchParams.userName" placeholder="please enter your userName" />
+      <a-input allow-clear v-model="formSearchParams.userName" placeholder="请输入你的用户名称" />
     </a-form-item>
     <a-form-item field="userAccount" label="账号">
-      <a-input allow-clear v-model="formSearchParams.userAccount" placeholder="please enter your userAccount" />
+      <a-input allow-clear v-model="formSearchParams.userAccount" placeholder="请输入你的用户账号" />
     </a-form-item>
     <a-form-item>
-      <a-button type="primary" style="width: 120px" html-type="submit">search</a-button>
+      <a-button type="primary" style="width: 120px" html-type="submit">搜索</a-button>
     </a-form-item>
   </a-form>
   <a-table :columns="columns" :data="dataList"

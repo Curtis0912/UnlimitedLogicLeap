@@ -1,23 +1,23 @@
 <template>
   <a-modal v-model:visible="visible" title="Modal Form" @cancel="closeModal" :footer="false">
     <a-form @submit="handleSubmit" :model="form">
-      <a-form-item field="id" label="id" disabled>
+      <a-form-item field="id" label="应用 id" disabled>
         <a-input v-model="form.id" />
       </a-form-item>
-      <a-form-item field="userName" label="userName">
+      <a-form-item field="userName" label="用户名称">
         <a-input v-model="form.userName" />
       </a-form-item>
       <a-form-item field="userAvatar" label="应用图标">
         <PictureUploader biz="user_avatar" :value="form.userAvatar" :onChange="(value) => (form.userAvatar = value)" />
       </a-form-item>
-      <a-form-item field="userProfile" label="userProfile">
+      <a-form-item field="userProfile" label="用户描述">
         <a-input v-model="form.userProfile" />
       </a-form-item>
-      <a-form-item field="userRole" label="userRole" disabled>
+      <a-form-item field="userRole" label="用户角色" disabled>
         <a-input v-model="form.userRole" />
       </a-form-item>
       <div style="text-align: center">
-        <a-button type="primary" html-type="submit">Submit</a-button>
+        <a-button type="primary" html-type="submit">提交</a-button>
       </div>
     </a-form>
   </a-modal>

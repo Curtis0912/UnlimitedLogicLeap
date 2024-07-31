@@ -47,6 +47,7 @@ declare namespace API {
   type AppAnswerCountDTO = {
     answerCount?: number;
     appId?: number;
+    appName?: string;
   };
 
   type AppAnswerResultCountDTO = {
